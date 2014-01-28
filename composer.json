@@ -1,0 +1,19 @@
+{
+	"name": "burnbright/silverstripe-shop-coloredvariations",
+	"description": "Submodule for Silverstripe shop which adds color support to variations.",
+	"type": "silverstripe-module",
+	"keywords": ["silverstripe", "ecommerce", "shop", "comparison", "color"],
+	"license": "BSD2",
+	"authors": [{
+		"name": "Jeremy Shipman",
+		"email": "jeremy@burnbright.net",
+		"homepage": "http://github.com/jedateach"
+	}],
+	"extra": {
+		"installer-name": "shop_coloredvariations"
+	},
+	"require": {
+		"burnbright/silverstripe-shop": "*",
+		"ajshort/silverstripe-gridfieldextensions": "*"
+	}
+}

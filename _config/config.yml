@@ -1,0 +1,11 @@
+---
+Name: coloredvariations
+After: shop/*
+---
+Product:
+  extensions:
+    - ColoredProductVariation
+
+ProductCatalogAdmin:
+  extensions:
+    - ColoredProductAttributeAdmin
