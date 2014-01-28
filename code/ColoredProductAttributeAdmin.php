@@ -11,8 +11,11 @@ class ColoredProductAttributeAdmin extends Extension{
 			$attributes->getConfig()
 				->removeComponentsByType("GridFieldAddNewButton")
 				->addComponent(
-					new GridFieldAddNewMultiClass()
+					$multiclass = new GridFieldAddNewMultiClass()
 				);
+			$multiclass->setClasses(
+				array_values(ClassInfo::subclassesFor("ProductAttributeType"))
+			);
 		}
 	}
 
