@@ -37,9 +37,9 @@ class ColoredProductVariations extends DataExtension{
 		$colors = $this->owner->getColors();
 		if($colors->exists()){
 			$displayfields['ColorID'] = function($record, $col, $grid) use ($colors){
-				return new DropdownField($col,"Color",
+				return DropdownField::create($col,"Color",
 					$colors->map('ID','Value')->toArray()
-				);
+				)->setHasEmptyDefault(true);
 			};
 		}
 		$cols->setDisplayFields($displayfields);
