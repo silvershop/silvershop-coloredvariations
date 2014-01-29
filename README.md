@@ -18,7 +18,7 @@ Add the color swatches template to your `templates/Layout/Product.ss` template:
 
 ## Caveats
 
-It is tested / not known how this add-on will behave when there are multiple `ColoredProductAttributeType`s assigned to a product. How often do independently choose different colors per product though?
+It is tested / not known how this add-on will behave when there are multiple `ColoredProductAttributeType`s assigned to a product. How often would you independently choose different colors per product though?
 
 ## License
 
