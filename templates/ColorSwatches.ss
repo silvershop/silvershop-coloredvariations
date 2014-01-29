@@ -4,5 +4,11 @@
 	<div class="swatch" style="background-color: #$Color;">
 		$Value
 	</div>
-	<%-- Images? --%>
+	<div>
+		<% if Images %>
+			<% loop Images %>
+			    $Me
+			<% end_loop %>
+		<% end_if %>
+	</div>
 <% end_loop %>

@@ -4,7 +4,7 @@ After: shop/*
 ---
 Product:
   extensions:
-    - ColoredProductVariation
+    - ColoredProductVariations
 
 ProductCatalogAdmin:
   extensions:
