@@ -53,13 +53,13 @@ class ColoredProductVariations extends DataExtension{
 		return ColoredProductAttributeValue::get()
 			->innerJoin(
 				"ProductVariation_AttributeValues",
-				"ProductVariation_AttributeValues.ProductAttributeValueID = ".
-					"ColoredProductAttributeValue.ID"
+				"\"ProductVariation_AttributeValues\".\"ProductAttributeValueID\" = ".
+					"\"ColoredProductAttributeValue\".\"ID\""
 			)
 			->innerJoin(
 				"ProductVariation",
-				"ProductVariation_AttributeValues.ProductVariationID = ".
-					"ProductVariation.ID"
+				"\"ProductVariation_AttributeValues\".\"ProductVariationID\" = ".
+					"\"ProductVariation\".\"ID\""
 			)
 			->filter("ProductID",$this->owner->ID);
 	}
