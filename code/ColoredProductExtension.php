@@ -6,9 +6,52 @@ class ColoredProductExtension extends DataExtension{
 		"Images" => "Image"
 	);
 
+	private static $many_many_extraFields = array(
+		'Images' => array(
+			'ColorID' => "Int",
+			'Sort' => "Int"
+		)
+	);
+
 	function updateCMSFields(FieldList $fields) {
-		$fields->insertAfter($field = new UploadField('Images', 'Images'), 'Image');
-		$field->setAllowedMaxFileNumber(3);
+		$fields->insertAfter($tabset = new TabSet('ColoredImages'), 'Image');
+		$tabset->push($uploadtab = new Tab('UploadImages'));
+		$tabset->push($attributetab = new Tab('AssignAttribute'));
+
+		$uploadtab->push($uf = new UploadField('Images', 'Images'));
+		$uf->setDescription('Note: The product must be saved before attributes can be assigned to new uploaded images.');
+
+		$attributetab->push(
+			$gf = GridField::create("ImageAttributes", "Images", $this->owner->Images(),
+				GridFieldConfig_RelationEditor::create()
+					->removeComponentsByType("GridFieldAddNewButton")
+					->removeComponentsByType("GridFieldEditButton")
+					->removeComponentsByType("GridFieldDataColumns")
+					->removeComponentsByType("GridFieldDeleteAction")
+					->addComponent(
+						$cols = new GridFieldEditableColumns()
+					)
+					->addComponent(
+						new GridFieldOrderableRows('Sort')
+					)
+			)
+		);
+		$displayfields = array(
+			'Title' => array(
+				'title' => 'Title',
+				'field' => new ReadonlyField("Name")
+			)				 
+		);
+		//add drop-down color selection
+		$colors = $this->owner->getColors();
+		if($colors->exists()){
+			$displayfields['ColorID'] = function($record, $col, $grid) use ($colors){
+				return DropdownField::create($col,"Color",
+					$colors->map('ID','Value')->toArray()
+				)->setHasEmptyDefault(true);
+			};
+		}
+		$cols->setDisplayFields($displayfields);
 	}
 
 	/**
@@ -38,18 +81,16 @@ class ColoredProductExtension extends DataExtension{
 		$colors = $this->getColors();
 		$images = $this->owner->Images();
 		
+		if(!$images->exists()) {
+			return $colors;
+		}
+
 		//add images to output
 		$output = new ArrayList();
 
 		foreach($colors as $color) {
-			$images = new ArrayList();
-			foreach($color->ProductVariation() as $variation) {
-				if($variation->Images()) {
-					$images->merge($variation->Images());
-				}
-			}
 			$output->push($color->customise(array(
-				'Images' => $images
+				'Images' => $images->filter('ColorID',$color->ID)
 			)));
 		}
 
