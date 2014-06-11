@@ -6,10 +6,6 @@ Product:
   extensions:
     - ColoredProductExtension
 
-ProductVariation:
-  extensions:
-    - ColoredProductVariationExtension
-
 ProductCatalogAdmin:
   extensions:
     - ColoredProductAttributeAdmin
