@@ -1,6 +1,6 @@
 ---
-Name: coloredvariations
-After: shop/*
+Name: silvershopcoloredvariations
+After: silvershop/*
 ---
 Product:
   extensions:
