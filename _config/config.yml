@@ -1,11 +1,10 @@
 ---
 Name: silvershopcoloredvariations
-After: silvershop/*
 ---
-Product:
+SilverShop\Pages\Product:
   extensions:
-    - ColoredProductExtension
+    - SilverShop\ColoredVariations\ColoredProductExtension
 
-ProductCatalogAdmin:
+SilverShop\Admin\ProductCatalogAdmin:
   extensions:
-    - ColoredProductAttributeAdmin
+    - SilverShop\ColoredVariations\ColoredProductAttributeAdmin
