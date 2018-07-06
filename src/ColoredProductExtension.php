@@ -22,6 +22,10 @@ class ColoredProductExtension extends DataExtension
         "Images" => Image::class
     ];
 
+    private static $owns = [
+        'Images'
+    ];
+
     private static $many_many_extraFields = [
         'Images' => [
             'ColorID' => "Int",
