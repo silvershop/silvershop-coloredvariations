@@ -1,0 +1,5 @@
+mappings:
+  ColoredProductAttributeAdmin: SilverShop\ColoredVariations\ColoredProductAttributeAdmin
+  ColoredProductExtension: SilverShop\ColoredVariations\ColoredProductExtension
+  ColoredProductAttributeValue: SilverShop\ColoredVariations\ColoredProductAttributeValue
+  ColoredProductAttributeType: SilverShop\ColoredVariations\ColoredProductAttributeType
