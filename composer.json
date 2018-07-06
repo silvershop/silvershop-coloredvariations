@@ -1,7 +1,8 @@
 {
     "name": "silvershop/coloredvariations",
     "description": "Add color support to variations for SilverShop.",
-    "type": "silverstripe-module",
+    "type": "silverstripe-vendormodule",
+    "license": "BSD-2-Clause",
     "keywords": ["silverstripe", "ecommerce", "shop", "comparison", "color"],
     "require" : {
         "silvershop/core": "^3"
