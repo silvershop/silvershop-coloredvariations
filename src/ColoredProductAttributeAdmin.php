@@ -5,7 +5,7 @@ namespace SilverShop\ColoredVariations;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
-use SilverShop\Model\Variations\AttributeType;
+use SilverShop\Model\Variation\AttributeType;
 use Symbiote\GridFieldExtensions\GridFieldAddNewMultiClass;
 use SilverStripe\Core\ClassInfo;
 
@@ -17,7 +17,7 @@ class ColoredProductAttributeAdmin extends Extension
     }
 
     public function updateCMSFields(FieldList $fields) {
-        if ($attributes = $fields->fieldByName("ProductAttributeType")) {
+        if ($attributes = $fields->fieldByName("SilverShop-Model-Variation-AttributeType")) {
             $attributes->getConfig()
                 ->removeComponentsByType(GridFieldAddNewButton::class)
                 ->addComponent(
