@@ -1,7 +1,7 @@
 ---
 Name: silvershopcoloredvariations
 ---
-SilverShop\Pages\Product:
+SilverShop\Page\Product:
   extensions:
     - SilverShop\ColoredVariations\ColoredProductExtension
 
