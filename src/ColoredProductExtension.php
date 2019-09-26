@@ -10,8 +10,8 @@ use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
-use GridFieldEditableColumns;
-use GridFieldOrderableRows;
+use Symbiote\GridFieldExtensions\GridFieldEditableColumns;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\ORM\ArrayList;
@@ -84,14 +84,14 @@ class ColoredProductExtension extends DataExtension
     public function getColors() {
         return ColoredProductAttributeValue::get()
             ->innerJoin(
-                "ProductVariation_AttributeValues",
-                "\"ProductVariation_AttributeValues\".\"ProductAttributeValueID\" = ".
-                    "\"ColoredProductAttributeValue\".\"ID\""
+                "SilverShop_Variation_AttributeValues",
+                "\"SilverShop_Variation_AttributeValues\".\"SilverShop_AttributeValueID\" = ".
+                "\"SilverShop_ColoredProductAttributeValue\".\"ID\""
             )
             ->innerJoin(
-                "ProductVariation",
-                "\"ProductVariation_AttributeValues\".\"ProductVariationID\" = ".
-                    "\"ProductVariation\".\"ID\""
+                "SilverShop_Variation",
+                "\"SilverShop_Variation_AttributeValues\".\"SilverShop_VariationID\" = ".
+                "\"SilverShop_Variation\".\"ID\""
             )
             ->filter("ProductID",$this->owner->ID);
     }
