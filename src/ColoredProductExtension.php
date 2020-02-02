@@ -2,6 +2,7 @@
 
 namespace SilverShop\ColoredVariations;
 
+use SilverStripe\Forms\LiteralField;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TabSet;
@@ -34,28 +35,36 @@ class ColoredProductExtension extends DataExtension
     ];
 
     public function updateCMSFields(FieldList $fields) {
+        $cols = null;
+        $firstCreationNote = 'Note: The product must be saved before attributes can be assigned to images.';
+
         $fields->insertAfter($tabset = new TabSet('ColoredImages'), 'Image');
         $tabset->push($uploadtab = new Tab('UploadImages'));
         $tabset->push($attributetab = new Tab('AssignAttribute'));
 
         $uploadtab->push($uf = new UploadField('Images', 'Images'));
-        $uf->setDescription('Note: The product must be saved before attributes can be assigned to new uploaded images.');
+        $uf->setDescription($firstCreationNote);
 
-        $attributetab->push(
-            $gf = GridField::create("ImageAttributes", "Images", $this->owner->Images(),
-                GridFieldConfig_RelationEditor::create()
-                    ->removeComponentsByType("GridFieldAddNewButton")
-                    ->removeComponentsByType("GridFieldEditButton")
-                    ->removeComponentsByType("GridFieldDataColumns")
-                    ->removeComponentsByType("GridFieldDeleteAction")
-                    ->addComponent(
-                        $cols = new GridFieldEditableColumns()
-                    )
-                    ->addComponent(
-                        new GridFieldOrderableRows('Sort')
-                    )
-            )
-        );
+        if ($this->owner->exists()) {
+            $attributetab->push(
+                $gf = GridField::create("ImageAttributes", "Images", $this->owner->Images(),
+                    GridFieldConfig_RelationEditor::create()
+                        ->removeComponentsByType("GridFieldAddNewButton")
+                        ->removeComponentsByType("GridFieldEditButton")
+                        ->removeComponentsByType("GridFieldDataColumns")
+                        ->removeComponentsByType("GridFieldDeleteAction")
+                        ->addComponent(
+                            $cols = new GridFieldEditableColumns()
+                        )
+                        ->addComponent(
+                            new GridFieldOrderableRows('Sort')
+                        )
+                )
+            );
+        } else {
+            $attributetab->push(LiteralField::create('ImageAttributesNote', $firstCreationNote));
+        }
+
         $displayfields = array(
             'Title' => array(
                 'title' => 'Title',
@@ -73,7 +82,9 @@ class ColoredProductExtension extends DataExtension
             };
         }
 
-        $cols->setDisplayFields($displayfields);
+        if ($cols) {
+            $cols->setDisplayFields($displayfields);
+        }
     }
 
     /**
