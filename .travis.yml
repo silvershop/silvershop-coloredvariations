@@ -1,23 +1,38 @@
 language: php
 
-php:
-    - 5.6
+dist: trusty
 
 env:
-    - DB=MYSQL CORE_RELEASE=3.1
+  global:
+    - COMPOSER_ROOT_VERSION=3.0.x-dev
 
 matrix:
   include:
-    - php: 5.6
-      env: DB=PGSQL CORE_RELEASE=3.1
+    # - php: 7.3
+    #   env: DB=MYSQL INSTALLER_VERSION=4.4.x-dev PHPCS_TEST=1 PHPUNIT_TEST=1
+    - php: 7.3
+      env: DB=MYSQL INSTALLER_VERSION=4.4.x-dev PHPUNIT_TEST=1
+    - php: 7.3
+      env: DB=PGSQL INSTALLER_VERSION=4.4.x-dev PHPUNIT_TEST=1
+    - php: 7.3
+      env: DB=MYSQL INSTALLER_VERSION=4.4.x-dev PHPUNIT_COVERAGE_TEST=1
 
 before_script:
-  - composer self-update
   - phpenv rehash
-  - git clone git://github.com/silverstripe-labs/silverstripe-travis-support.git ~/travis-support
-  - php ~/travis-support/travis_setup.php --source `pwd` --target ~/builds/ss
-  - cd ~/builds/ss
+  - phpenv config-rm xdebug.ini || true
+  - echo 'memory_limit = 3096M' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - export PATH=~/.composer/vendor/bin:$PATH
+  - composer validate
+  - if [[ $DB == PGSQL ]]; then composer require silverstripe/postgresql:^2.2 --no-update; fi
+  - composer install --prefer-source --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
+  - composer require --no-update silverstripe/installer:$INSTALLER_VERSION
+  - if [[ $PHPCS_TEST ]]; then composer require squizlabs/php_codesniffer:^3 --prefer-dist --no-interaction --no-progress --no-suggest -o; fi
 
 script:
-  - "if [ \"$COVERAGE\" = \"\" ]; then vendor/bin/phpunit . fi"
-  - "if [ \"$COVERAGE\" = \"1\" ]; then vendor/bin/phpunit . fi"
+  - if [[ $PHPUNIT_TEST ]]; then vendor/bin/phpunit; fi
+  - if [[ $PHPUNIT_COVERAGE_TEST ]]; then phpdbg -qrr vendor/bin/phpunit --coverage-clover=coverage.xml; fi
+  - if [[ $PHPCS_TEST ]]; then vendor/bin/phpcs -s src/ tests/; fi
+
+after_success:
+  - if [[ $PHPUNIT_COVERAGE_TEST ]]; then bash <(curl -s https://codecov.io/bash) -f coverage.xml; fi
+
