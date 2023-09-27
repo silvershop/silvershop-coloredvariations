@@ -5,7 +5,7 @@
     "license": "BSD-2-Clause",
     "keywords": ["silverstripe", "ecommerce", "shop", "comparison", "color"],
     "require" : {
-        "silvershop/core": "^3"
+        "silvershop/core": "^4"
     },
     "authors": [{
       "name": "SilverShop Contributors",
@@ -19,7 +19,7 @@
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "2.x-dev"
+            "dev-main": "3.x-dev"
         }
     },
     "autoload": {
