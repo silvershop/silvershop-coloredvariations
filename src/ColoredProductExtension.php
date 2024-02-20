@@ -38,7 +38,7 @@ class ColoredProductExtension extends DataExtension
         $cols = null;
         $firstCreationNote = 'Note: The product must be saved before attributes can be assigned to images.';
 
-        $fields->insertAfter($tabset = new TabSet('ColoredImages'), 'Image');
+        $fields->insertAfter('Image', $tabset = new TabSet('ColoredImages'));
         $tabset->push($uploadtab = new Tab('UploadImages'));
         $tabset->push($attributetab = new Tab('AssignAttribute'));
 
