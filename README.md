@@ -10,10 +10,22 @@ Choose colors for variation attributes, allowing for display of color swatches.
 The module also introduces the ability to add many images to a product, and
 assign each image to a specific color.
 
+## Requirements
+
+- PHP 8.3+
+- SilverShop Core 6.x / Silverstripe CMS 6.x
+
 ## Installation
 
 ```
 composer require silvershop/coloredvariations
+```
+
+## Development
+
+```bash
+composer test
+composer stan
 ```
 
 Add the color swatches template to your `templates/Layout/Product.ss` template:

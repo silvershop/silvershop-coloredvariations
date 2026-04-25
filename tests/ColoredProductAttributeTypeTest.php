@@ -3,20 +3,18 @@
 namespace SilverShop\ColoredVariations\Tests;
 
 use SilverShop\ColoredVariations\ColoredProductAttributeType;
-use SilverShop\ColoredVariations\ColoredProductAttributeValue;
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\LiteralField;
 
 class ColoredProductAttributeTypeTest extends SapphireTest
 {
-    public function testValuesGridUsesColoredValueModel(): void
+    public function testUnsavedTypeShowsValuesPlaceholderField(): void
     {
         $type = ColoredProductAttributeType::create();
         $fields = $type->getCMSFields();
         $valuesField = $fields->fieldByName('Values');
 
-        $this->assertInstanceOf(GridField::class, $valuesField);
-        $this->assertSame(ColoredProductAttributeValue::class, $valuesField->getModelClass());
+        $this->assertInstanceOf(LiteralField::class, $valuesField);
     }
 
     public function testDefaultsSetColorNameAndLabel(): void

@@ -2,9 +2,11 @@
 
 namespace SilverShop\ColoredVariations;
 
+use SilverShop\Page\Product;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\SingleSelectField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
@@ -18,21 +20,32 @@ use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\SS_List;
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Model\List\SS_List;
 use SilverStripe\Core\Extension;
 
+/**
+ * @extends Extension<Product>
+ */
 class ColoredProductExtension extends Extension
 {
+    /**
+     * @var array<string, string>
+     */
     private static $many_many = [
         "Images" => Image::class
     ];
 
+    /**
+     * @var array<int, string>
+     */
     private static $owns = [
         'Images'
     ];
 
+    /**
+     * @var array<string, array<string, string>>
+     */
     private static $many_many_extraFields = [
         'Images' => [
             'ColorID' => "Int",
@@ -45,11 +58,11 @@ class ColoredProductExtension extends Extension
         $cols = null;
         $firstCreationNote = 'Note: The product must be saved before attributes can be assigned to images.';
 
-        $fields->insertAfter('Image', $tabset = new TabSet('ColoredImages'));
-        $tabset->push($uploadtab = new Tab('UploadImages'));
-        $tabset->push($attributetab = new Tab('AssignAttribute'));
+        $fields->insertAfter('Image', $tabset = TabSet::create('ColoredImages'));
+        $tabset->push($uploadtab = Tab::create('UploadImages'));
+        $tabset->push($attributetab = Tab::create('AssignAttribute'));
 
-        $uploadtab->push($uf = new UploadField('Images', 'Images'));
+        $uploadtab->push($uf = UploadField::create('Images', 'Images'));
         $uf->setDescription($firstCreationNote);
 
         if ($this->owner->exists()) {
@@ -61,10 +74,10 @@ class ColoredProductExtension extends Extension
                         ->removeComponentsByType(GridFieldDataColumns::class)
                         ->removeComponentsByType(GridFieldDeleteAction::class)
                         ->addComponent(
-                            $cols = new GridFieldEditableColumns()
+                            $cols = GridFieldEditableColumns::create()
                         )
                         ->addComponent(
-                            new GridFieldOrderableRows('Sort')
+                            GridFieldOrderableRows::create('Sort')
                         )
                 )
             );
@@ -75,14 +88,14 @@ class ColoredProductExtension extends Extension
         $displayfields = [
             'Title' => [
                 'title' => 'Title',
-                'field' => new ReadonlyField('Name')
+                'field' => ReadonlyField::create('Name')
             ]
         ];
 
         $colors = $this->owner->getColors();
 
         if ($colors->exists()) {
-            $displayfields['ColorID'] = function ($record, string $col, GridField $grid) use ($colors): DropdownField {
+            $displayfields['ColorID'] = function ($record, string $col, GridField $grid) use ($colors): SingleSelectField {
                 return DropdownField::create(
                     $col,
                     'Color',
@@ -97,14 +110,9 @@ class ColoredProductExtension extends Extension
     }
 
     /**
-     * Get all the colors for this product
-     *
-     * @return DataList
+     * @return mixed
      */
-    /**
-     * @return DataList<ColoredProductAttributeValue>
-     */
-    public function getColors(): DataList
+    public function getColors()
     {
         return ColoredProductAttributeValue::get()
             ->innerJoin(
@@ -117,24 +125,20 @@ class ColoredProductExtension extends Extension
                 "\"SilverShop_Variation_AttributeValues\".\"SilverShop_VariationID\" = ".
                 "\"SilverShop_Variation\".\"ID\""
             )
-            ->filter("ProductID",$this->owner->ID);
+            ->filter('ProductID', $this->owner->ID);
     }
 
     /**
      * Add image lists to colors
      *
-     * @return DataList
+     * @return SS_List<mixed>
      */
     public function Colors(): SS_List
     {
         $colors = $this->getColors();
         $images = $this->owner->Images();
 
-        if (!$images->exists()) {
-            return $colors;
-        }
-
-        $output = new ArrayList();
+        $output = ArrayList::create();
 
         foreach ($colors as $color) {
             $output->push($color->customise([

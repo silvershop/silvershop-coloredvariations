@@ -2,6 +2,7 @@
 
 namespace SilverShop\ColoredVariations;
 
+use SilverShop\Admin\ProductCatalogAdmin;
 use SilverShop\Model\Variation\AttributeType;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
@@ -11,7 +12,9 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Core\ClassInfo;
 use Symbiote\GridFieldExtensions\GridFieldAddNewMultiClass;
 
-
+/**
+ * @extends Extension<ProductCatalogAdmin>
+ */
 class ColoredProductAttributeAdmin extends Extension
 {
     public function updateEditForm(Form $form): void
@@ -29,7 +32,7 @@ class ColoredProductAttributeAdmin extends Extension
         $attributes->getConfig()
             ->removeComponentsByType(GridFieldAddNewButton::class)
             ->addComponent(
-                $multiclass = new GridFieldAddNewMultiClass()
+                $multiclass = GridFieldAddNewMultiClass::create()
             );
 
         $multiclass->setClasses(
