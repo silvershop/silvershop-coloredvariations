@@ -3,6 +3,7 @@
 namespace SilverShop\ColoredVariations;
 
 use SilverShop\Model\Variation\AttributeType;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 
 
@@ -17,9 +18,10 @@ class ColoredProductAttributeType extends AttributeType
         'Label' => 'Color'
     ];
 
-    public function getCMSFields() {
+    public function getCMSFields(): FieldList
+    {
         $fields = parent::getCMSFields();
-        $values = $fields->fieldByname("Values");
+        $values = $fields->fieldByName('Values');
 
         if ($values instanceof GridField) {
             $values->setModelClass(ColoredProductAttributeValue::class);
