@@ -1,7 +1,7 @@
 <p>Available colors</p>
 
 <% loop Colors %>
-	<div class="swatch" style="background-color: #$Color;">
+	<div class="silvershop-swatch" style="background-color: #$Color;">
 		$Value
 	</div>
 	<div>
