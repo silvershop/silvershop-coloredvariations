@@ -33,21 +33,21 @@ class ColoredProductExtension extends Extension
      * @var array<string, string>
      */
     private static $many_many = [
-        "Images" => Image::class
+        "ColorImages" => Image::class
     ];
 
     /**
      * @var array<int, string>
      */
     private static $owns = [
-        'Images'
+        'ColorImages'
     ];
 
     /**
      * @var array<string, array<string, string>>
      */
     private static $many_many_extraFields = [
-        'Images' => [
+        'ColorImages' => [
             'ColorID' => "Int",
             'Sort' => "Int"
         ]
@@ -62,12 +62,12 @@ class ColoredProductExtension extends Extension
         $tabset->push($uploadtab = Tab::create('UploadImages'));
         $tabset->push($attributetab = Tab::create('AssignAttribute'));
 
-        $uploadtab->push($uf = UploadField::create('Images', 'Images'));
+        $uploadtab->push($uf = UploadField::create('ColorImages', 'Color Images'));
         $uf->setDescription($firstCreationNote);
 
         if ($this->owner->exists()) {
             $attributetab->push(
-                $gf = GridField::create("ImageAttributes", "Images", $this->owner->Images(),
+                $gf = GridField::create("ImageAttributes", "Color Images", $this->owner->ColorImages(),
                     GridFieldConfig_RelationEditor::create()
                         ->removeComponentsByType(GridFieldAddNewButton::class)
                         ->removeComponentsByType(GridFieldEditButton::class)
@@ -136,13 +136,13 @@ class ColoredProductExtension extends Extension
     public function Colors(): SS_List
     {
         $colors = $this->getColors();
-        $images = $this->owner->Images();
+        $images = $this->owner->ColorImages();
 
         $output = ArrayList::create();
 
         foreach ($colors as $color) {
             $output->push($color->customise([
-                'Images' => $images->filter('ColorID', $color->ID)
+                'ColorImages' => $images->filter('ColorID', $color->ID)
             ]));
         }
 

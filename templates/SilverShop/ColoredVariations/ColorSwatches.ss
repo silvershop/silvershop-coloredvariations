@@ -5,8 +5,8 @@
 		$Value
 	</div>
 	<div>
-		<% if Images %>
-			<% loop Images %>
+		<% if ColorImages %>
+			<% loop ColorImages %>
 			    $Me
 			<% end_loop %>
 		<% end_if %>
