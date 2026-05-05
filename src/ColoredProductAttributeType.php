@@ -6,7 +6,6 @@ use SilverShop\Model\Variation\AttributeType;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 
-
 class ColoredProductAttributeType extends AttributeType
 {
     /**
@@ -43,5 +42,4 @@ class ColoredProductAttributeType extends AttributeType
 
         return $fields;
     }
-
 }

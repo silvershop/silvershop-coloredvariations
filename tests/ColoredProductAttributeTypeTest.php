@@ -21,7 +21,6 @@ class ColoredProductAttributeTypeTest extends SapphireTest
     {
         $defaults = ColoredProductAttributeType::config()->get('defaults');
 
-        $this->assertIsArray($defaults);
         $this->assertSame('Color', $defaults['Name'] ?? null);
         $this->assertSame('Color', $defaults['Label'] ?? null);
     }

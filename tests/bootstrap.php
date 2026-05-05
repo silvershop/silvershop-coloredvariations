@@ -10,6 +10,9 @@ if (!class_exists('Page')) {
 }
 
 if (!class_exists('PageController')) {
+    /**
+     * @extends ContentController<Page>
+     */
     class PageController extends ContentController
     {
     }

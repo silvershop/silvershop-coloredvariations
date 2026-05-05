@@ -11,7 +11,8 @@
         "color"
     ],
     "require": {
-        "silvershop/core": "^6"
+        "silvershop/core": "^6",
+        "php-http/guzzle7-adapter": "^1.1"
     },
     "authors": [
         {
@@ -55,6 +56,9 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-        "stan": "vendor/bin/phpstan analyse --configuration=phpstan.neon"
+        "test:coverage": "vendor/bin/phpunit --coverage-html coverage --coverage-text",
+        "stan": "vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=-1",
+        "lint": "vendor/bin/phpcs",
+        "lint:fix": "vendor/bin/phpcbf"
     }
 }

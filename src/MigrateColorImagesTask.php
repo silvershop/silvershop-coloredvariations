@@ -6,6 +6,9 @@ use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\Queries\SQLInsert;
 use SilverStripe\ORM\Queries\SQLSelect;
+use SilverStripe\PolyExecution\PolyOutput;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Migrates existing data from the old "Images" many_many join table
@@ -20,28 +23,31 @@ class MigrateColorImagesTask extends BuildTask
 
     protected string $title = 'Migrate ColoredVariations Images → ColorImages';
 
-    protected string $description = 'Copies rows from the old Product_Images join table '
+    protected static string $description = 'Copies rows from the old Product_Images join table '
         . 'into the new Product_ColorImages join table, preserving ColorID and Sort values. '
         . 'Safe to run multiple times (duplicate rows are skipped).';
 
-    public function run($request): void // @phpstan-ignore-line
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
         $oldTable = 'SilverShop_Page_Product_Images';
         $newTable = 'SilverShop_Page_Product_ColorImages';
 
-        $db = DB::get_conn();
+        if (DB::get_conn() === null) {
+            $output->writeln('No database connection – cannot run migration.');
+            return Command::FAILURE;
+        }
 
         // Bail out if the old table does not exist (already migrated or fresh install).
-        $existingTables = $db->tableList();
+        $existingTables = DB::table_list();
         if (!in_array(strtolower($oldTable), array_map('strtolower', $existingTables))) {
-            $this->message("Old table \"{$oldTable}\" not found – nothing to migrate.");
-            return;
+            $output->writeln("Old table \"{$oldTable}\" not found – nothing to migrate.");
+            return Command::SUCCESS;
         }
 
         // Ensure the new table exists (it is created by dev/build).
         if (!in_array(strtolower($newTable), array_map('strtolower', $existingTables))) {
-            $this->message("New table \"{$newTable}\" not found – please run dev/build first.");
-            return;
+            $output->writeln("New table \"{$newTable}\" not found – please run dev/build first.");
+            return Command::FAILURE;
         }
 
         // Copy rows that do not already exist in the new table.
@@ -79,11 +85,8 @@ class MigrateColorImagesTask extends BuildTask
             $inserted++;
         }
 
-        $this->message("Migration complete. {$inserted} row(s) copied to \"{$newTable}\".");
-    }
+        $output->writeln("Migration complete. {$inserted} row(s) copied to \"{$newTable}\".");
 
-    private function message(string $text): void
-    {
-        echo $text . PHP_EOL;
+        return Command::SUCCESS;
     }
 }

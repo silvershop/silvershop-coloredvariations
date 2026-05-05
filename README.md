@@ -2,7 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/silvershop/coloredvariations/v/stable.png)](https://packagist.org/packages/silvershop/coloredvariations)
 [![Latest Unstable Version](https://poser.pugx.org/silvershop/coloredvariations/v/unstable.png)](https://packagist.org/packages/silvershop/coloredvariations)
-[![Build Status](https://secure.travis-ci.org/silvershop/silvershop-coloredvariations.png)](http://travis-ci.org/silvershop/silvershop-coloredvariations)
+[![CI](https://github.com/silvershop/silvershop-coloredvariations/actions/workflows/ci.yml/badge.svg)](https://github.com/silvershop/silvershop-coloredvariations/actions/workflows/ci.yml)
 [![Total Downloads](https://poser.pugx.org/silvershop/coloredvariations/downloads.png)](https://packagist.org/packages/silvershop/coloredvariations)
 
 Choose colors for variation attributes, allowing for display of color swatches.

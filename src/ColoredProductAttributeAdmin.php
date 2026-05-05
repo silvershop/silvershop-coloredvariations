@@ -39,5 +39,4 @@ class ColoredProductAttributeAdmin extends Extension
             array_values(ClassInfo::subclassesFor(AttributeType::class))
         );
     }
-
 }

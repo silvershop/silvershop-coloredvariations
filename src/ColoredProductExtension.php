@@ -67,7 +67,10 @@ class ColoredProductExtension extends Extension
 
         if ($this->owner->exists()) {
             $attributetab->push(
-                $gf = GridField::create("ImageAttributes", "Color Images", $this->owner->ColorImages(),
+                $gf = GridField::create(
+                    "ImageAttributes",
+                    "Color Images",
+                    $this->owner->ColorImages(),
                     GridFieldConfig_RelationEditor::create()
                         ->removeComponentsByType(GridFieldAddNewButton::class)
                         ->removeComponentsByType(GridFieldEditButton::class)
@@ -85,7 +88,7 @@ class ColoredProductExtension extends Extension
             $attributetab->push(LiteralField::create('ImageAttributesNote', $firstCreationNote));
         }
 
-        $displayfields = [
+        $displayFields = [
             'Title' => [
                 'title' => 'Title',
                 'field' => ReadonlyField::create('Name')
@@ -95,7 +98,11 @@ class ColoredProductExtension extends Extension
         $colors = $this->owner->getColors();
 
         if ($colors->exists()) {
-            $displayfields['ColorID'] = function ($record, string $col, GridField $grid) use ($colors): SingleSelectField {
+            $displayFields['ColorID'] = function (
+                $record,
+                string $col,
+                GridField $grid
+            ) use ($colors): SingleSelectField {
                 return DropdownField::create(
                     $col,
                     'Color',
@@ -105,7 +112,7 @@ class ColoredProductExtension extends Extension
         }
 
         if ($cols) {
-            $cols->setDisplayFields($displayfields);
+            $cols->setDisplayFields($displayFields);
         }
     }
 
@@ -117,12 +124,12 @@ class ColoredProductExtension extends Extension
         return ColoredProductAttributeValue::get()
             ->innerJoin(
                 "SilverShop_Variation_AttributeValues",
-                "\"SilverShop_Variation_AttributeValues\".\"SilverShop_AttributeValueID\" = ".
+                "\"SilverShop_Variation_AttributeValues\".\"SilverShop_AttributeValueID\" = " .
                 "\"SilverShop_ColoredProductAttributeValue\".\"ID\""
             )
             ->innerJoin(
                 "SilverShop_Variation",
-                "\"SilverShop_Variation_AttributeValues\".\"SilverShop_VariationID\" = ".
+                "\"SilverShop_Variation_AttributeValues\".\"SilverShop_VariationID\" = " .
                 "\"SilverShop_Variation\".\"ID\""
             )
             ->filter('ProductID', $this->owner->ID);
@@ -133,6 +140,7 @@ class ColoredProductExtension extends Extension
      *
      * @return SS_List<mixed>
      */
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps -- SilverStripe-style public API
     public function Colors(): SS_List
     {
         $colors = $this->getColors();
@@ -148,5 +156,4 @@ class ColoredProductExtension extends Extension
 
         return $output;
     }
-
 }
