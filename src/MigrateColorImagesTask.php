@@ -23,10 +23,6 @@ class MigrateColorImagesTask extends BuildTask
 
     protected string $title = 'Migrate ColoredVariations Images → ColorImages';
 
-    protected static string $description = 'Copies rows from the old Product_Images join table '
-        . 'into the new Product_ColorImages join table, preserving ColorID and Sort values. '
-        . 'Safe to run multiple times (duplicate rows are skipped).';
-
     protected function execute(InputInterface $input, PolyOutput $output): int
     {
         $oldTable = 'SilverShop_Page_Product_Images';
