@@ -1,14 +1,16 @@
-<p>Available colors</p>
+<div class="silvershop-color-swatches">
+    <p class="silvershop-color-swatches__heading">Available colors</p>
 
-<% loop Colors %>
-	<div class="silvershop-swatch" style="background-color: #$Color;">
-		$Value
-	</div>
-	<div>
-		<% if ColorImages %>
-			<% loop ColorImages %>
-			    $Me
-			<% end_loop %>
-		<% end_if %>
-	</div>
-<% end_loop %>
+    <% loop Colors %>
+        <div class="silvershop-color-swatches__swatch" style="background-color: #$Color;">
+            <span class="silvershop-color-swatches__value">$Value</span>
+        </div>
+        <div class="silvershop-color-swatches__images">
+            <% if ColorImages %>
+                <% loop ColorImages %>
+                    $Me
+                <% end_loop %>
+            <% end_if %>
+        </div>
+    <% end_loop %>
+</div>
