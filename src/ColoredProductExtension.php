@@ -58,7 +58,8 @@ class ColoredProductExtension extends Extension
         $cols = null;
         $firstCreationNote = 'Note: The product must be saved before attributes can be assigned to images.';
 
-        $fields->insertAfter('Image', $tabset = TabSet::create('ColoredImages'));
+        // Own top-level "Colors" tab, off the Content tab (module UX rework pending).
+        $fields->addFieldToTab('Root.Colors', $tabset = TabSet::create('ColoredImages'));
         $tabset->push($uploadtab = Tab::create('UploadImages'));
         $tabset->push($attributetab = Tab::create('AssignAttribute'));
 
