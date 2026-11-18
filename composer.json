@@ -11,6 +11,8 @@
         "color"
     ],
     "require": {
+        "php": "^8.3",
+        "silverstripe/framework": "^6",
         "silvershop/core": "^6",
         "php-http/guzzle7-adapter": "^1.1"
     },

@@ -2,8 +2,8 @@
 
 namespace SilverShop\ColoredVariations;
 
-use SilverShop\Admin\ProductCatalogAdmin;
 use SilverShop\Model\Variation\AttributeType;
+use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\FieldList;
@@ -13,7 +13,10 @@ use SilverStripe\Core\ClassInfo;
 use Symbiote\GridFieldExtensions\GridFieldAddNewMultiClass;
 
 /**
- * @extends Extension<ProductCatalogAdmin>
+ * Applied to SilverShop\Admin\ProductCatalogAdmin, which now ships in silvershop/productcatalog,
+ * so it's typed against ModelAdmin to avoid a hard dependency on that module.
+ *
+ * @extends Extension<ModelAdmin>
  */
 class ColoredProductAttributeAdmin extends Extension
 {
