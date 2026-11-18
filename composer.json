@@ -58,7 +58,7 @@
     "scripts": {
         "test": "vendor/bin/phpunit",
         "test:coverage": "vendor/bin/phpunit --coverage-html coverage --coverage-text",
-        "stan": "vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=-1",
+        "stan": "vendor/bin/phpstan analyse --configuration=phpstan.neon.dist --memory-limit=-1",
         "lint": "vendor/bin/phpcs",
         "lint:fix": "vendor/bin/phpcbf"
     }
